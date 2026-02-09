@@ -22,11 +22,9 @@ String dartRetrofitClientTemplate({
   JsonSerializer jsonSerializer = JsonSerializer.jsonSerializable,
   bool useFlutterCompute = false,
   String? fileName,
-  JsonSerializer? jsonSerializer,
 }) {
   // For non-freezed serializers, apply sealed naming to union imports and types
-  final applySealedNaming =
-      jsonSerializer != null && jsonSerializer != JsonSerializer.freezed;
+  final applySealedNaming = jsonSerializer != JsonSerializer.freezed;
   final parameterTypes = restClient.requests
       .expand((r) => r.parameters.map((p) => p.type))
       .toSet();
@@ -136,15 +134,6 @@ String _toClientRequest(
     responseType = 'dynamic';
   }
 
-  // Check if this is a binary response (file download)
-  final isBinaryResponse = request.returnType?.format == 'binary' ||
-      (request.returnType?.type == 'string' &&
-          request.returnType?.format == 'binary');
-
-  // For binary responses, we need to use HttpResponse<List<int>> and add @DioResponseType
-  final finalResponseType = isBinaryResponse
-      ? 'HttpResponse<List<int>>'
-      : (originalHttpResponse ? 'HttpResponse<$responseType>' : responseType);
   // Apply sealed naming transformation to response type if needed
   if (applySealedNaming) {
     responseType = _renameUnionTypes(responseType);

@@ -129,7 +129,6 @@ enum ProgrammingLanguage {
     JsonSerializer jsonSerializer = JsonSerializer.jsonSerializable,
     bool useFlutterCompute = false,
     String? fileName,
-    JsonSerializer? jsonSerializer,
   }) =>
       switch (this) {
         dart => dartRetrofitClientTemplate(
@@ -145,7 +144,6 @@ enum ProgrammingLanguage {
             useFlutterCompute: useFlutterCompute,
             generateUrlsConstants: generateUrlsConstants,
             fileName: fileName,
-            jsonSerializer: jsonSerializer,
           ),
         kotlin =>
           kotlinRetrofitClientTemplate(restClient: restClient, name: name),
