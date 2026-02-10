@@ -207,9 +207,13 @@ String _enumValueDartMappable(
       }
     }
   }
+  var name = item.name.toCamel;
+  if (name == '') {
+    name = 'none';
+  }
   return '''
 ${index != 0 ? '\n' : ''}${descriptionComment(item.description, tab: '  ')}${indentation(2)}@MappableValue($value) 
-${indentation(2)}${item.name.toCamel}''';
+${indentation(2)}$name''';
 }
 
 String _toJson(UniversalEnumClass enumClass, String className) {
